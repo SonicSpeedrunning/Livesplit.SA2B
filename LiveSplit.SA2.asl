@@ -1,5 +1,5 @@
 //Updated 04-26-2025
-//By Shining, Jelly, IDGeek, Skewb
+//By Shining, Jelly, IDGeek, Skewb	
 state("sonic2app")
 {
 	bool timerEnd         : 0x0134AFDA;
@@ -86,9 +86,13 @@ update
 {
 	
 	if (vars.countedFrames % 30 == 0) {
-		vars.chao = Process.GetProcessesByName("ChaoEditor");	
+		vars.chao = Process.GetProcessesByName("ChaoEditor");
+		if (vars.chao.Length > 0){
+			print("LOL");
+		}	
 	}
 	vars.useIGT = vars.chao.Length > 0 || settings["timeIGT"];
+	
 	//First time in a stage?
 	if (current.menuMode == 0 || current.menuMode == 1 || current.menuMode == 16)
 	{
@@ -156,9 +160,6 @@ update
 		vars.countFrames = true;
 	}
 	else vars.countFrames = false;
-	if(vars.chao.Length > 0){
-		vars.countFrames = true;
-	}
 	if (vars.countFrames)
 	{
 		int timeToAdd = Math.Max(0, current.frameCount - old.frameCount);
