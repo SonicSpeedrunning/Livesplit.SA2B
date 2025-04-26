@@ -87,9 +87,6 @@ update
 	
 	if (vars.countedFrames % 30 == 0) {
 		vars.chao = Process.GetProcessesByName("ChaoEditor");
-		if (vars.chao.Length > 0){
-			print("LOL");
-		}	
 	}
 	vars.useIGT = vars.chao.Length > 0 || settings["timeIGT"];
 	
