@@ -31,6 +31,11 @@ state("sonic2app")
 	byte inlevelCutscene  : 0x019D0F9C;
 	byte gameplayPause    : 0x021F0014;
 
+	// Karate ADX time removal
+	byte karateAction     : 0x165d14c, 0x34, 0x0;
+	byte karateSubaction  : 0x165d14C, 0x34, 0x1;
+	uint chaoArea         : 0x00F4046C;
+
 	short currEmblems     : 0x01536296;
 	short currEvent       : 0x01628AF4;
 	//Timing
@@ -121,6 +126,11 @@ update
 	{
 		vars.countFrames = false;
 	}
+	//Chao Karate ADX
+	else if (current.stageID == 90 && current.chaoArea == 0xa && (current.karateAction == 0xc || current.karateAction == 0xe) && current.karateSubaction == 0x2)
+	{
+		vars.countFrames = false;
+	}
 	//Normal stages
 	else if (!vars.useIGT && !settings["combinedHunting"] && current.mainMenu2 == 1 &&
 	(((current.currMenuState == 2 || current.currMenuState == 3) && !current.runStart) || current.currMenuState == 4 || current.currMenuState == 5 || current.currMenuState == 6 || current.currMenuState == 7))
@@ -190,7 +200,15 @@ update
 			}
 			else if (!settings["combinedHunting"])
 			{
-				vars.totalTime += timeToAdd;
+				// Chao Karate ADX
+				if (current.stageID == 90 && current.chaoArea == 0xa && (current.karateAction == 0xc || current.karateAction == 0xe) && current.karateSubaction == 0x2)
+				{
+					vars.totalTime = vars.totalTime;
+				}
+				else
+				{
+					vars.totalTime += timeToAdd;
+				}
 			}
 		}
 		vars.lastGoodTimerVal = current.levelTimer;
