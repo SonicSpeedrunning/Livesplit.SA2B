@@ -39,6 +39,7 @@ state("sonic2app")
 
 	short currEmblems     : 0x01536296;
 	short currEvent       : 0x01628AF4;
+	int emblemCSTimer     : 0x016f0f68;
 	//Timing
 	int levelTimer        : 0x015457F8;
 	int levelTimerClone   : 0x0134AFDB;
@@ -268,7 +269,15 @@ update
 	{
 		vars.splitDelay = 1;
 	}
-	
+	// Split on 180/171 emblems
+	else if(vars.emblemCSTimer == 180 && old.emblemCSTimer != 180)
+	{
+		if (timer.Run.CategoryName == "180 Emblems" && vars.currEmblems == 180) {
+			vars.splitDelay = 1;
+		} else if (timer.Run.CategoryName == "171 Emblems" && vars.currEmblems == 171) {
+			vars.splitDelay = 1;
+		}
+	}
 }
 
 start
