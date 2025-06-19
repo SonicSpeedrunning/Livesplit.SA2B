@@ -30,6 +30,7 @@ state("sonic2app")
 	byte storyRecap       : 0x0191C1AC;
 	byte inlevelCutscene  : 0x019D0F9C;
 	byte gameplayPause    : 0x021F0014;
+	byte levelSequence    : 0x019EB320;
 
 	short currEmblems     : 0x01536296;
 	short currEvent       : 0x01628AF4;
@@ -198,8 +199,10 @@ update
 	//Splitting
 	vars.splitDelay = Math.Max(0, vars.splitDelay-1);
 	//Boss rush
-	if (settings["bossRush"] && current.bossRush == 1 && (current.stageID == 67 || current.stageID == 65 || current.stageID == 64 || current.stageID == 63 || current.stageID == 62 ||
-	current.stageID == 61 || current.stageID == 60 || current.stageID == 33 || current.stageID == 29 || current.stageID == 20 || current.stageID == 19))
+	if (settings["bossRush"] && current.bossRush == 1 &&
+		(current.levelSequence == 0xc && current.stageID != 42) ||
+		(current.levelSequence == 0xd && current.stageID != 42) ||
+		(current.levelSequence == 0xe && current.stageID != 66))
 	{
 		vars.splitDelay = 0;
 	}
