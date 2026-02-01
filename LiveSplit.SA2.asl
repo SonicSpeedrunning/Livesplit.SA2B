@@ -191,7 +191,7 @@ update
 		//Only add positive time
 		int timeToAdd = Math.Max(0, inGameTime-oldGameTime);
 
-		if (current.controlActive)
+		if (current.controlActive && !current.inEmblem)
 		{
 			if (settings["combinedHunting"] && (current.stageID == 5 || current.stageID == 7 || current.stageID == 8 || current.stageID == 16 || current.stageID == 18 || current.stageID == 25 ||
 			current.stageID == 26 || current.stageID == 32 || current.stageID == 44 || (!settings["no280"] && current.stageID == 70 && current.charID == 5)))
