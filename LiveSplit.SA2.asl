@@ -270,7 +270,7 @@ update
 		vars.splitDelay = 1;
 	}
 	// Split on 180/171 emblems
-	else if(vars.emblemCSTimer == 180 && old.emblemCSTimer != 180)
+	else if(current.emblemCSTimer == 180 && old.emblemCSTimer != 180)
 	{
 		if (timer.Run.CategoryName == "180 Emblems" && vars.currEmblems == 180) {
 			vars.splitDelay = 1;
