@@ -378,7 +378,7 @@ reset
 			return true;
 		}
 		//Reset upon activating quick save reload
-		else if (vars.qsrEnabled = true)
+		else if (vars.qsrEnabled == true)
 		{
 			if ((current.qsrReloadCount != 0 && old.qsrReloadCount != -1) && (old.qsrReloadCount != current.qsrReloadCount))
 			{
