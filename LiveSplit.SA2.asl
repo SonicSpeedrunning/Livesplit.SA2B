@@ -1,5 +1,5 @@
 //Updated 04-26-2025
-//By Shining, Jelly, IDGeek, Skewb	
+//By Shining, Jelly, IDGeek, Skewb
 state("sonic2app")
 {
 	bool timerEnd         : 0x0134AFDA;
@@ -51,7 +51,7 @@ state("sonic2app")
 	int currMenu          : 0x0197BB10;
 	int currMenuState     : 0x0197BB14;
 	//Quick Save Reload
-	int qsrPointer        : 0x00054884;
+	uint qsrPointer       : 0x00054884;
 	int qsrReloadCount    : 0x00054884, 0x0;
 }
 
@@ -91,12 +91,13 @@ startup
 
 update
 {
-	
+	//The game can be closed and re-opened at any time so we need to always check if qsr is enabled.
+	vars.qsrEnabled = current.qsrPointer != 0xCCCCCCCC;
 	if (vars.countedFrames % 30 == 0) {
 		vars.chao = Process.GetProcessesByName("ChaoEditor");
 	}
 	vars.useIGT = vars.chao.Length > 0 || settings["timeIGT"];
-	
+
 	//First time in a stage?
 	if (current.menuMode == 0 || current.menuMode == 1 || current.menuMode == 16)
 	{
@@ -287,12 +288,8 @@ start
 	vars.splitDelay = 0;
 	vars.firstLoad = true;
 	vars.countFrames = false;
-	//QSR Check
-	if (current.qsrPointer == 0xCCCCCCCC)
-	{
-		vars.qsrEnabled = true;
-	}
-	else vars.qsrEnabled = false;
+	vars.qsrEnabled = current.qsrPointer != 0xCCCCCCCC;
+
 	//Allow Any% and 2 Player Levels to start where other categories can't
 	if ((timer.Run.CategoryName != "Any%" && timer.Run.CategoryName != "2 Player Levels" &&
 	current.currMenuState != 4 && current.currMenuState != 5 && current.currMenuState != 7) ||
@@ -381,7 +378,7 @@ reset
 			return true;
 		}
 		//Reset upon activating quick save reload
-		else if (vars.qsrEnabled = true)
+		else if (vars.qsrEnabled == true)
 		{
 			if ((current.qsrReloadCount != 0 && old.qsrReloadCount != -1) && (old.qsrReloadCount != current.qsrReloadCount))
 			{
@@ -414,8 +411,7 @@ split
 
 isLoading
 {
-	
-	return true;	
+	return true;
 }
 
 gameTime
