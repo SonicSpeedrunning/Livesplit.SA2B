@@ -220,9 +220,9 @@ update
 	vars.splitDelay = Math.Max(0, vars.splitDelay-1);
 	//Boss rush
 	if (settings["bossRush"] && current.bossRush == 1 &&
-		(current.levelSequence == 0xc && current.stageID != 42) ||
+		((current.levelSequence == 0xc && current.stageID != 42) ||
 		(current.levelSequence == 0xd && current.stageID != 42) ||
-		(current.levelSequence == 0xe && current.stageID != 66))
+		(current.levelSequence == 0xe && current.stageID != 66)))
 	{
 		vars.splitDelay = 0;
 	}
