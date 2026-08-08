@@ -416,5 +416,5 @@ isLoading
 
 gameTime
 {
-	return TimeSpan.FromMilliseconds(vars.countedFrames*5.0/0.3 + vars.totalTime*10.0);
+	return TimeSpan.FromMilliseconds(timer.Run.Offset.TotalMilliseconds + vars.countedFrames*5.0/0.3 + vars.totalTime*10.0);
 }
