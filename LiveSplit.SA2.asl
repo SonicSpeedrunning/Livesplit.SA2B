@@ -87,6 +87,7 @@ startup
 	settings.Add("backRing", false, "Split when touching an M2/M3 Go Back Ring.");
 	settings.Add("cannonsCore", false, "Only split in Cannon's Core when a mission is completed.");
 	settings.Add("bossRush", false, "Only split in Boss Rush when defeating the last boss of a story.");
+	settings.Add("2PlayerStart", false, "Only start timer when entering 2-player menu.");
 }
 
 update
@@ -291,14 +292,15 @@ start
 	vars.qsrEnabled = current.qsrPointer != 0xCCCCCCCC;
 
 	//Allow Any% and 2 Player Levels to start where other categories can't
-	if ((timer.Run.CategoryName != "Any%" && timer.Run.CategoryName != "2 Player Levels" &&
-	current.currMenuState != 4 && current.currMenuState != 5 && current.currMenuState != 7) ||
+	if ((timer.Run.CategoryName != "Any%" && !settings["2PlayerStart"] && 
+	timer.Run.CategoryName != "2 Player Levels" && current.currMenuState != 4 && 
+	current.currMenuState != 5 && current.currMenuState != 7) || 
 	current.inEmblem || current.inAMV)
 	{
 		return false;
 	}
 	//Only start timer when selecting 2p mode
-	else if (timer.Run.CategoryName == "Any%")
+	else if (timer.Run.CategoryName == "Any%" || settings["2PlayerStart"]) 
 	{
 		if (current.mainMenu1 != 1 && current.mainMenu2 != 1 && current.stageSelect != 1 && current.twoplayerMenu == 1 && old.twoplayerMenu == 0)
 		{
